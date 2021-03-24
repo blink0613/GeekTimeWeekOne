@@ -1,16 +1,24 @@
+package WeekOne;
+import java.lang.*;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 
 
 public class HelloClassLoader extends ClassLoader{
-    public static void main(String args[]) throws ClassNotFoundException {
+    public static void main(String args[]) throws Exception {
         HelloClassLoader helloClassLoader = new HelloClassLoader();
-        helloClassLoader.loadClass("Hello");
+        Class<?> clazz = helloClassLoader.loadClass("Hello");
+        // 创建对象
+        Object instance = clazz.newInstance();
+        // 调用方法
+        Method method = clazz.getMethod("hello");
+        method.invoke(instance);
     }
 
     @Override
-    public Class<?> loadClass(String name) throws ClassNotFoundException{
+    public Class<?> findClass(String name) throws ClassNotFoundException{
         try{
             InputStream inputStream = this.getClass().getResourceAsStream("/Hello.xlass");
 
